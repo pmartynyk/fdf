@@ -5,6 +5,8 @@ GCC 	= gcc
 
 FLAG	= -Wall -Wextra -Werror
 
+OGL = -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit
+
 LIB 	= fdf.h
 
 MYLIB	= libft_printf/libftprintf.a
@@ -30,7 +32,7 @@ mkdir:
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJF) mylib
-	@$(GCC) $(FLAG) $(OBJF) $(MYLIB) -o  $(NAME) 
+	@$(GCC) $(OGL) $(FLAG) $(OBJF) $(MYLIB) -o  $(NAME) 
 	@echo "\033[32mFDF Builded\033[39m"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
