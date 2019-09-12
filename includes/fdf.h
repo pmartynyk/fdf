@@ -17,14 +17,23 @@
 #include "mlx.h"
 #include <fcntl.h>
 
-typedef struct s_map
+typedef struct s_point
 {
     int x;
     int y;
     int z;
-} t_map;
+} t_point;
+
+typedef struct s_fdf
+{
+    void * win;
+    void * mlx;
+    t_point **map;
+    int mapLength;
+    int mapHeight;
+}               t_fdf;
 
 //read.c
-void ft_read(char *argv, t_map *map);
+void ft_read(char *argv, t_fdf *fdf);
 
 #endif
