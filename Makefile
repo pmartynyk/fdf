@@ -12,7 +12,8 @@ LIB 	= fdf.h
 MYLIB	= libft_printf/libftprintf.a
 
 SRC		= fdf.c\
-		read.c
+		read.c\
+		draw.c
 
 LIBS_DIR = ./includes/
 

@@ -12,9 +12,9 @@
 
 #include "../includes/fdf.h"
 
-static int ft_checkButton(int button, void *asd)
+static int ft_checkButton(int button, t_fdf *fdf)
 {
-    (void)asd;
+    (void)fdf;
     if (button == 53)
         exit(0);
     if (button == 17)
@@ -23,9 +23,9 @@ static int ft_checkButton(int button, void *asd)
     return (0);
 }
 
-static int ft_close(void *param)
+static int ft_close(t_fdf *fdf)
 {
-    (void)param;
+    (void)fdf;
     exit(0);
 }
 
@@ -38,9 +38,10 @@ int main(int argc, char **argv)
     {
         ft_read(argv[1], fdf);
         fdf->mlx = mlx_init();
-        fdf->win = mlx_new_window(fdf->mlx, 1000, 1000, "FDF");
-        mlx_hook(fdf->win, 2, 0, ft_checkButton, NULL);
-        mlx_hook(fdf->win, 17, 0, ft_close, NULL);
+        fdf->win = mlx_new_window(fdf->mlx, WIDHT, HEIGHT, "FDF");
+        ft_draw(fdf);
+        mlx_hook(fdf->win, 2, 0, ft_checkButton, fdf);
+        mlx_hook(fdf->win, 17, 0, ft_close, fdf);
         mlx_loop(fdf->mlx);
     }
     else

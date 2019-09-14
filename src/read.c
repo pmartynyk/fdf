@@ -35,7 +35,7 @@ static int ft_checkfile(char *file)
     return (fd);
 }
 
-static int ft_countword(char *str)
+static int ft_countLength(char *str)
 {
     int i;
     int cnt;
@@ -53,25 +53,95 @@ static int ft_countword(char *str)
     return (cnt);
 }
 
+static int ft_getDec(char c)
+{
+    int res;
+
+    if (c == 65 || c == 97)
+        res = 10;
+    if (c == 66 || c == 98)
+        res = 11;
+    if (c == 67 || c == 99)
+        res = 12;
+    if (c == 68 || c == 100)
+        res = 13;
+    if (c == 69 || c == 101)
+        res = 14;
+    if (c == 70 || c == 102)
+        res = 15;
+    return (res);
+}
+
+int ft_colorConvert(char *line)
+{
+    int res;
+    int i;
+    int len;
+
+    res = 0;
+    i = 2;
+    len = (ft_strlen(line) - 3);
+    while (line[i] && len >= 0)
+    {
+        if (line[i] >= '0' && line[i] <= '9')
+        {
+            res += (line[i] - '0') * pow(16, len);
+            len--;
+        }
+        if ((line[i] >= 65 && line[i] <= 70) || (line[i] >= 97 && line[i] <= 102))
+        {
+            res += ft_getDec(line[i]) * pow(16, len);
+            len--;
+        }
+        i++;
+    }
+    if (res < 0 || res > 16777215)
+    {
+        ft_printf("Error color!\n");
+        exit(0);
+    }
+    return (res);
+}
+
+static int ft_color(char *line, int num)
+{
+    int res;
+
+    while (*line && *line != ',')
+        line++;
+    if (*line != ',' && num == 0)
+        res = ft_colorConvert("0x8e09c6");
+    else if (*line != ',' && num > 0)
+        res = ft_colorConvert("0xffff00");
+    else if (*line != ',' && num < 0)
+        res = ft_colorConvert("0x00c900");
+    else
+    {
+        line++;
+        res = ft_colorConvert(line);
+    }
+
+    return (res);
+}
+
 static void ft_fillMap(char *line, t_fdf *fdf, int i)
 {
     int num;
     int k;
+    char **tmpMap;
 
-    fdf->mapLength = ft_countword(line);
+    fdf->mapLength = ft_countLength(line);
     fdf->map[i] = (t_point *)malloc(sizeof(t_point) * fdf->mapLength + 1);
     k = 0;
-    while (*line)
+    tmpMap = ft_strsplit(line, 32);
+    while (tmpMap[k])
     {
-        if (*line != ' ')
-        {
-            num = ft_atoi(line);
-            fdf->map[i][k].z = num;
-            line += ft_intlen(num);
-            k++;
-        }
-        else
-            line++;
+        num = ft_atoi(tmpMap[k]);
+        fdf->map[i][k].x = k;
+        fdf->map[i][k].y = i;
+        fdf->map[i][k].z = num;
+        fdf->map[i][k].color = ft_color(tmpMap[k], num);
+        k++;
     }
 }
 
@@ -97,7 +167,7 @@ void ft_read(char *file, t_fdf *fdf)
 
     i = 0;
     fdf->mapHeight = ft_countHeight(file);
-    fdf->map = (t_point **)malloc(sizeof(t_point*) * fdf->mapHeight + 1);
+    fdf->map = (t_point **)malloc(sizeof(t_point *) * fdf->mapHeight + 1);
     fd = ft_checkfile(file);
     while (get_next_line(fd, &line) > 0)
     {
@@ -112,11 +182,10 @@ void ft_read(char *file, t_fdf *fdf)
     //     y = 0;
     //     while (y < fdf->mapLength)
     //     {
-    //         ft_printf("%d ", fdf->map[x][y].z);
+    //         ft_printf("%d,%d ", fdf->map[x][y].z, fdf->map[x][y].color);
     //         y++;
     //     }
     //     ft_printf("\n");
     //     x++;
     // }
-
 }
