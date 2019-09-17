@@ -17,9 +17,25 @@
 #include "mlx.h"
 #include <fcntl.h>
 #include <math.h>
+#include <sys/ioctl.h>
 
-# define WIDHT 1000
-# define HEIGHT 1000
+#define WIDHT 1000
+#define HEIGHT 1000
+
+typedef struct s_cord
+{
+    int x1;
+    int x2;
+    int y1;
+    int y2;
+    int startX;
+    int startY;
+    int zoom;
+    int dx;
+    int dy;
+    int lengthX;
+    int lengthY;
+} t_cord;
 
 typedef struct s_point
 {
@@ -41,6 +57,7 @@ typedef struct s_fdf
     t_point **map;
     int mapLength;
     int mapHeight;
+    t_cord cord;
 } t_fdf;
 
 //read.c
@@ -48,6 +65,5 @@ void ft_read(char *argv, t_fdf *fdf);
 
 //draw
 void ft_draw(t_fdf *fdf);
-
 
 #endif

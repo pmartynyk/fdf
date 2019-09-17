@@ -131,10 +131,11 @@ static void ft_fillMap(char *line, t_fdf *fdf, int i)
     char **tmpMap;
 
     fdf->mapLength = ft_countLength(line);
+    
     fdf->map[i] = (t_point *)malloc(sizeof(t_point) * fdf->mapLength + 1);
     k = 0;
     tmpMap = ft_strsplit(line, 32);
-    while (tmpMap[k])
+    while (k < fdf->mapLength)
     {
         num = ft_atoi(tmpMap[k]);
         fdf->map[i][k].x = k;
