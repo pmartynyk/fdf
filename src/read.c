@@ -138,9 +138,9 @@ static void ft_fillMap(char *line, t_fdf *fdf, int i)
     while (k < fdf->mapLength)
     {
         num = ft_atoi(tmpMap[k]);
-        fdf->map[i][k].x = k;
-        fdf->map[i][k].y = i;
-        fdf->map[i][k].z = num;
+        fdf->map[i][k].x = (double)i;
+        fdf->map[i][k].y = (double)k;
+        fdf->map[i][k].z = (double)num;
         fdf->map[i][k].color = ft_color(tmpMap[k], num);
         k++;
     }
@@ -183,7 +183,7 @@ void ft_read(char *file, t_fdf *fdf)
     //     y = 0;
     //     while (y < fdf->mapLength)
     //     {
-    //         ft_printf("%d,%d ", fdf->map[x][y].z, fdf->map[x][y].color);
+    //         ft_printf("%d, %d | %f, %f\n", x, y, fdf->map[x][y].x, fdf->map[x][y].y);
     //         y++;
     //     }
     //     ft_printf("\n");
