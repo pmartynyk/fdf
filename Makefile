@@ -38,7 +38,7 @@ $(NAME): $(OBJF) mylib
 	@echo "\033[32mFDF Builded\033[39m"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	@$(GCC) $(FLAG) -c $< -o $@ 
+	@$(GCC) $(FLAG) -c $< -o $@ -g
 
 mylib:
 	@make -C ./libft_printf/

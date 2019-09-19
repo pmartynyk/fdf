@@ -77,7 +77,7 @@ static char	*wrd_val(char *s, char c, int num, int len)
 		{
 			if (cnt == num)
 			{
-				res = (char *)malloc(sizeof(char) * (len));
+				res = (char *)malloc(sizeof(char) * (len) + 1);
 				while (s[i] != c && s[i])
 					res[j++] = s[i++];
 				res[j] = '\0';
@@ -103,13 +103,12 @@ char		**ft_strsplit(char const *s, char c)
 	i = 0;
 	j = 0;
 	cnt = wrd_cnt((char *)s, c);
-	res = (char **)malloc(sizeof(char *) * (cnt));
+	res = (char **)malloc(sizeof(char *) * (cnt) + 1);
 	if (res == 0)
 		return (NULL);
 	while (i < cnt)
 	{
 		len = wrd_len((char *)s, c, i);
-		res[i] = (char *)malloc(sizeof(char) * (len));
 		res[i] = wrd_val((char *)s, c, i, len);
 		i++;
 	}

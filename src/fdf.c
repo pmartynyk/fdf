@@ -12,47 +12,52 @@
 
 #include "../includes/fdf.h"
 
+static void ft_init(t_fdf *fdf)
+{
+    fdf->cam->step = (WIDTH / fdf->mapLength) * 0.8;
+    fdf->cam->setx = WIDTH / 2;
+    fdf->cam->sety = HEIGHT / 2;
+    fdf->angleX = 0;
+    fdf->angleY = 0;
+}
+
 static int ft_checkButton(int button, t_fdf *fdf)
 {
-    (void)fdf;
     if (button == 53)
         exit(0);
     if (button == 17)
         exit(0);
-    // if (button == NUM_PLUS)
-    // {
-    //     fdf->cord.zoom += 2;
-    //     // ft_draw(fdf);
-    // }
-    // else if (button == NUM_MINUS)
-    // {
-    //     fdf->cord.zoom -= 2;
-    //     fdf->cord.zoom = (fdf->cord.zoom <= 0 ? 1 : fdf->cord.zoom);
-    //     // ft_draw(fdf);
-    // }
-    // else if (button == KEYDOWN)
-    // {
-    //     fdf->cord.wid += 5;
-    //     // ft_draw(fdf);
-    // }
-    // else if (button == KEYLEFT)
-    // {
-    //     fdf->cord.hei -= 5;
-    //     // ft_draw(fdf);
-    // }
-    // else if (button == KEYUP)
-    // {
-    //     fdf->cord.wid -= 5;
-    //     // ft_draw(fdf);
-    // }
-    // else if (button == KEYRIGHT)
-    // {
-    //     fdf->cord.hei += 5;
-    // }
-    if (button == O_BUTTON)
+    if (button == NUM_PLUS)
+        fdf->cam->step += 2;
+    else if (button == NUM_MINUS)
     {
-        fdf->button = 19;
+        fdf->cam->step -= 2;
+        fdf->cam->step = (fdf->cam->step <= 0 ? 1 : fdf->cam->step);
     }
+    else if (button == KEYDOWN)
+        fdf->cam->setx += 5;
+    else if (button == KEYLEFT)
+        fdf->cam->sety -= 5;
+    else if (button == KEYUP)
+        fdf->cam->setx -= 5;
+    else if (button == KEYRIGHT)
+        fdf->cam->sety += 5;
+    else if (button == 19)
+        fdf->button = 19;
+    else if (button == 18)
+        fdf->button = 18;
+    else if (button == 13)
+        fdf->angleY -= 0.05;
+    else if (button == 1)
+        fdf->angleY += 0.05;
+    else if (button == 2)
+        fdf->angleX -= 0.05;
+    else if (button == 0)
+        fdf->angleX += 0.05;
+    else if (button == 15)
+        ft_init(fdf);
+    else if (button == 12 || button == 14)
+        changeAltitude(button, fdf);
     ft_draw(fdf);
     return (0);
 }
@@ -63,24 +68,16 @@ static int ft_close(t_fdf *fdf)
     exit(0);
 }
 
-// static void ft_put_start(t_fdf *fdf)
-// {
-//     fdf->cord.zoom = 10;
-//     fdf->cord.startX = (WIDTH / 2 - ((fdf->mapHeight * fdf->cord.zoom) / 2));
-//     fdf->cord.startY = (HEIGHT / 2 - ((fdf->mapLength * fdf->cord.zoom) / 2));
-// }
-
 int main(int argc, char **argv)
 {
     t_fdf *fdf;
     fdf = (t_fdf *)malloc(sizeof(t_fdf));
-    fdf->cam = ft_memalloc(sizeof(t_cam));
+    fdf->cam = (t_cam *)malloc(sizeof(t_cam));
     if (argc == 2)
     {
         ft_read(argv[1], fdf);
-        fdf->cam->step = 10;
-        fdf->cam->setx = (WIDTH / 2 - ((fdf->mapHeight * fdf->cam->step) / 2));
-        fdf->cam->sety = (HEIGHT / 2 - ((fdf->mapLength * fdf->cam->step) / 2));
+        // system("leaks fdf");
+        ft_init(fdf);
         fdf->mlx = mlx_init();
         fdf->win = mlx_new_window(fdf->mlx, WIDTH, HEIGHT, "FDF");
         fdf->image = mlx_new_image(fdf->mlx, WIDTH, HEIGHT);
@@ -89,11 +86,10 @@ int main(int argc, char **argv)
         mlx_hook(fdf->win, 2, 0, ft_checkButton, fdf);
         mlx_hook(fdf->win, 17, 0, ft_close, fdf);
         mlx_loop(fdf->mlx);
+        
     }
     else
-    {
-        ft_printf("Error!\n");
-    }
-
+        ft_printf("Usage: ./fdf Map_file!\n");
+    
     return (0);
 }

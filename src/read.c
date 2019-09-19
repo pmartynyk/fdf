@@ -53,6 +53,23 @@ static int ft_countLength(char *str)
     return (cnt);
 }
 
+static int ft_countHeight(char *file)
+{
+    int i;
+    int fd;
+    char *line;
+
+    i = 0;
+    fd = ft_checkfile(file);
+    while (get_next_line(fd, &line) > 0)
+    {
+        free(line);
+        i++;
+    }
+    close(fd);
+    return (i);
+}
+
 static int ft_getDec(char c)
 {
     int res;
@@ -124,6 +141,19 @@ static int ft_color(char *line, int num)
     return (res);
 }
 
+void ft_free(char **map)
+{
+    int i;
+
+    i = 0;
+    while (map[i])
+    {
+        free(map[i]);
+        i++;
+    }
+    free(map);
+}
+
 static void ft_fillMap(char *line, t_fdf *fdf, int i)
 {
     int num;
@@ -131,7 +161,6 @@ static void ft_fillMap(char *line, t_fdf *fdf, int i)
     char **tmpMap;
 
     fdf->mapLength = ft_countLength(line);
-    
     fdf->map[i] = (t_point *)malloc(sizeof(t_point) * fdf->mapLength + 1);
     k = 0;
     tmpMap = ft_strsplit(line, 32);
@@ -144,20 +173,7 @@ static void ft_fillMap(char *line, t_fdf *fdf, int i)
         fdf->map[i][k].color = ft_color(tmpMap[k], num);
         k++;
     }
-}
-
-static int ft_countHeight(char *file)
-{
-    int i;
-    int fd;
-    char *line;
-
-    i = 0;
-    fd = ft_checkfile(file);
-    while (get_next_line(fd, &line) > 0)
-        i++;
-    close(fd);
-    return (i);
+    ft_free(tmpMap);
 }
 
 void ft_read(char *file, t_fdf *fdf)
@@ -173,6 +189,7 @@ void ft_read(char *file, t_fdf *fdf)
     while (get_next_line(fd, &line) > 0)
     {
         ft_fillMap(line, fdf, i);
+        free(line);
         i++;
     }
 

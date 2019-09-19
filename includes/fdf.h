@@ -30,23 +30,6 @@
 #define WIDTH 1000
 #define HEIGHT 1000
 
-// typedef struct s_cord
-// {
-//     int x1;
-//     int x2;
-//     int y1;
-//     int y2;
-//     int startX;
-//     int startY;
-//     int zoom;
-//     int dx;
-//     int dy;
-//     int lengthX;
-//     int lengthY;
-//     int wid;
-//     int hei;
-// } t_cord;
-
 typedef struct	s_cam
 {
 	double		setx;
@@ -80,15 +63,26 @@ typedef struct s_fdf
     double angleY;
     int button;
     t_cam *cam;
+    t_point *pnt1;
+    t_point *pnt2;
 } t_fdf;
 
 //read.c
 void ft_read(char *argv, t_fdf *fdf);
+void ft_free(char **map);
+
 
 //draw
+void pixel_put(t_fdf *fdf, int y, int x, int color);
 void ft_draw(t_fdf *fdf);
 
 //rotate.c
-void ft_rotateX(t_fdf *fdf);
+void changeAltitude(int n, t_fdf *fdf);
+void bresenham(t_fdf *fdf, t_point pnt1, t_point pnt2);
+t_point ft_rotate(t_point pnt, t_fdf *fdf);
+t_point ft_calc(t_point pnt, t_fdf *fdf);
+
+
+
 
 #endif
