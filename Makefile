@@ -3,7 +3,7 @@ NAME	= fdf
 
 GCC 	= gcc
 
-FLAG	= #-Wall -Wextra -Werror
+FLAG	= -Wall -Wextra -Werror
 
 OGL = -L/usr/local/lib -lmlx -framework OpenGL -framework AppKit
 
@@ -14,7 +14,8 @@ MYLIB	= libft_printf/libftprintf.a
 SRC		= fdf.c\
 		read.c\
 		draw.c\
-		rotate.c
+		rotate.c\
+		additional.c
 
 LIBS_DIR = ./includes/
 

@@ -26,9 +26,17 @@
 #define O_BUTTON 31
 #define NUM_PLUS 69
 #define NUM_MINUS 78
+#define PROJECTION1 18
+#define PROJECTION2 19
+#define MOVEUP 13
+#define MOVEDOOWN 1
+#define MOVELEFT 0
+#define MOVERIGHT 2
 
 #define WIDTH 1000
 #define HEIGHT 1000
+
+# define ERROR(x) {ft_printf(x); exit(0);}
 
 typedef struct	s_cam
 {
@@ -81,6 +89,13 @@ void changeAltitude(int n, t_fdf *fdf);
 void bresenham(t_fdf *fdf, t_point pnt1, t_point pnt2);
 t_point ft_rotate(t_point pnt, t_fdf *fdf);
 t_point ft_calc(t_point pnt, t_fdf *fdf);
+
+// additional.c
+int ft_checkfile(char *file);
+void ft_free(char **map);
+int ft_countLength(char *str);
+int ft_countHeight(char *file);
+
 
 
 
