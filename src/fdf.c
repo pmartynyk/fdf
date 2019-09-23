@@ -24,9 +24,9 @@ static void	ft_init(t_fdf *fdf)
 static int	ft_checkButton2(int button, t_fdf *fdf)
 {
 	if (button == PROJECTION1)
-		fdf->button = 19;
-	else if (button == PROJECTION2)
 		fdf->button = 18;
+	else if (button == PROJECTION2)
+		fdf->button = 19;
 	else if (button == MOVEUP)
 		fdf->angleY -= 0.05;
 	else if (button == MOVEDOOWN)
