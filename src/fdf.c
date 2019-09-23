@@ -21,7 +21,7 @@ static void	ft_init(t_fdf *fdf)
 	fdf->angleY = 0;
 }
 
-static int	ft_checkButton2(int button, t_fdf *fdf)
+static int	ft_check_button2(int button, t_fdf *fdf)
 {
 	if (button == PROJECTION1)
 		fdf->button = 18;
@@ -40,7 +40,7 @@ static int	ft_checkButton2(int button, t_fdf *fdf)
 	return (0);
 }
 
-static int	ft_checkButton(int button, t_fdf *fdf)
+static int	ft_check_button(int button, t_fdf *fdf)
 {
 	if (button == 53)
 		exit(0);
@@ -62,7 +62,7 @@ static int	ft_checkButton(int button, t_fdf *fdf)
 	else if (button == KEYRIGHT)
 		fdf->cam->sety += 5;
 	else
-		ft_checkButton2(button, fdf);
+		ft_check_button2(button, fdf);
 	ft_draw(fdf);
 	return (0);
 }
@@ -91,7 +91,7 @@ int			main(int argc, char **argv)
 		fdf->imgBuf = (int *)mlx_get_data_addr(fdf->image,
 		&fdf->bits_per_pixel, &fdf->size_line, &fdf->endian);
 		ft_draw(fdf);
-		mlx_hook(fdf->win, 2, 0, ft_checkButton, fdf);
+		mlx_hook(fdf->win, 2, 0, ft_check_button, fdf);
 		mlx_hook(fdf->win, 17, 0, ft_close, fdf);
 		mlx_loop(fdf->mlx);
 	}

@@ -85,7 +85,7 @@ t_point			ft_rotate(t_point pnt, t_fdf *fdf);
 t_point			ft_calc(t_point pnt, t_fdf *fdf);
 int				ft_checkfile(char *file);
 void			ft_free(char **map);
-int				ft_countLength(char *str);
-int				ft_countHeight(char *file);
+int				ft_count_length(char *str);
+int				ft_count_height(char *file);
 
 #endif

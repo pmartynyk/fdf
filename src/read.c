@@ -12,7 +12,7 @@
 
 #include "../includes/fdf.h"
 
-static int	ft_getDec(char c)
+static int	ft_get_dec(char c)
 {
 	int res;
 
@@ -31,7 +31,7 @@ static int	ft_getDec(char c)
 	return (res);
 }
 
-static int	ft_colorConvert(char *line)
+static int	ft_color_convert(char *line)
 {
 	int res;
 	int i;
@@ -50,7 +50,7 @@ static int	ft_colorConvert(char *line)
 		if ((line[i] >= 65 && line[i] <= 70) ||
 		(line[i] >= 97 && line[i] <= 102))
 		{
-			res += ft_getDec(line[i]) * pow(16, len);
+			res += ft_get_dec(line[i]) * pow(16, len);
 			len--;
 		}
 		i++;
@@ -67,42 +67,42 @@ static int	ft_color(char *line, int num)
 	while (*line && *line != ',')
 		line++;
 	if (*line != ',' && num == 0)
-		res = ft_colorConvert("0x8e09c6");
+		res = ft_color_convert("0x8e09c6");
 	else if (*line != ',' && num > 0)
-		res = ft_colorConvert("0xffff00");
+		res = ft_color_convert("0xffff00");
 	else if (*line != ',' && num < 0)
-		res = ft_colorConvert("0x00c900");
+		res = ft_color_convert("0x00c900");
 	else
 	{
 		line++;
-		res = ft_colorConvert(line);
+		res = ft_color_convert(line);
 	}
 	return (res);
 }
 
-static void	ft_fillMap(char *line, t_fdf *fdf, int i)
+static void	ft_fill_map(char *line, t_fdf *fdf, int i)
 {
 	int		num;
 	int		k;
-	char	**tmpMap;
+	char	**tmp_map;
 
 	if (fdf->mapLength == 0)
-		fdf->mapLength = ft_countLength(line);
-	if (fdf->mapLength == ft_countLength(line))
+		fdf->mapLength = ft_count_length(line);
+	if (fdf->mapLength == ft_count_length(line))
 	{
 		fdf->map[i] = (t_point *)malloc(sizeof(t_point) * fdf->mapLength + 1);
 		k = 0;
-		tmpMap = ft_strsplit(line, 32);
+		tmp_map = ft_strsplit(line, 32);
 		while (k < fdf->mapLength)
 		{
-			num = ft_atoi(tmpMap[k]);
+			num = ft_atoi(tmp_map[k]);
 			fdf->map[i][k].x = (double)i;
 			fdf->map[i][k].y = (double)k;
 			fdf->map[i][k].z = (double)num;
-			fdf->map[i][k].color = ft_color(tmpMap[k], num);
+			fdf->map[i][k].color = ft_color(tmp_map[k], num);
 			k++;
 		}
-		ft_free(tmpMap);
+		ft_free(tmp_map);
 	}
 	else
 		ERROR("Error. Wrong line length.");
@@ -115,12 +115,12 @@ void		ft_read(char *file, t_fdf *fdf)
 	int		i;
 
 	i = 0;
-	fdf->mapHeight = ft_countHeight(file);
+	fdf->mapHeight = ft_count_height(file);
 	fdf->map = (t_point **)malloc(sizeof(t_point *) * fdf->mapHeight + 1);
 	fd = ft_checkfile(file);
 	while (get_next_line(fd, &line) > 0)
 	{
-		ft_fillMap(line, fdf, i);
+		ft_fill_map(line, fdf, i);
 		free(line);
 		i++;
 	}

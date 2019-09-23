@@ -48,7 +48,7 @@ void	ft_free(char **map)
 	free(map);
 }
 
-int		ft_countLength(char *str)
+int		ft_count_length(char *str)
 {
 	int i;
 	int cnt;
@@ -66,7 +66,7 @@ int		ft_countLength(char *str)
 	return (cnt);
 }
 
-int		ft_countHeight(char *file)
+int		ft_count_height(char *file)
 {
 	int		i;
 	int		fd;
