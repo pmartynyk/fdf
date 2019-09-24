@@ -17,16 +17,25 @@ static void	ft_init(t_fdf *fdf)
 	fdf->cam->step = (WIDTH / fdf->mapLength) * 0.8;
 	fdf->cam->setx = WIDTH / 2;
 	fdf->cam->sety = HEIGHT / 2;
-	fdf->angleX = 0;
+	if (fdf->button == 19)
+		fdf->angleX = 0.5;
+	else
+		fdf->angleX = 0;
 	fdf->angleY = 0;
 }
 
 static int	ft_check_button2(int button, t_fdf *fdf)
 {
 	if (button == PROJECTION1)
+	{
 		fdf->button = 18;
+		ft_init(fdf);
+	}
 	else if (button == PROJECTION2)
+	{
 		fdf->button = 19;
+		ft_init(fdf);
+	}
 	else if (button == MOVEUP)
 		fdf->angleY -= 0.05;
 	else if (button == MOVEDOOWN)
